@@ -1,10 +1,13 @@
 import { connectToDatabase } from "../../../util/mongodb";
-
+import { registerValidation } from "../../../models/validation"
 
 
 export default async (request, response) => {
     const { db } = await connectToDatabase();
 
+    //Validataion & Date  before we create a player
+    const { error } = registerValidation(request.body);
+    if (error) return response.send(error.details[0].message)
 
     //checking if the user is aleardy in the database
     const usernameExist = await db.collection("players").findOne({ username: request.body.username });
