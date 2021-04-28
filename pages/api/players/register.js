@@ -10,7 +10,7 @@ export default async (request, response) => {
 
     //checking if the user is aleardy in the database
     const usernameExist = await db.collection("players").findOne({ username: request.body.username });
-    if (usernameExist) return response.send({ 'message': 'username aleardy exists' }).then(console.clear());
+    if (usernameExist) return response.json({ message: 'username aleardy exists' });
 
     try {
         const data = await db
