@@ -1,16 +1,22 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import { connectToDatabase } from '../util/mongodb'
 
-export default function Home() {
+
+export default function Home({ properties }) {
   return (
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <h1>hello jjjjj</h1>
       <main className={styles.main}>
-        <h1>hello jonathan 2</h1>
+        {
+          properties.map(el => (
+            <h1>{el.username}</h1>
+          ))
+        }
       </main>
 
       <footer className={styles.footer}>
@@ -25,4 +31,19 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+export async function getServerSideProps(context) {
+  const { db } = await connectToDatabase();
+
+  const data = await db
+    .collection("players")
+    .find({})
+    .limit(20)
+    .toArray();
+
+  return {
+    props: {
+      properties: JSON.parse(JSON.stringify(data)),
+    },
+  }
 }
