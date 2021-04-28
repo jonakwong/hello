@@ -10,7 +10,6 @@ export default async (request, response) => {
     const usernameExist = await db.collection("players").findOne({ username: request.body.username });
     if (usernameExist) return response.send('username aleardy exists');
 
-    try {
         const data = await db
             .collection("players")
             .insertOne({
@@ -22,8 +21,5 @@ export default async (request, response) => {
 
         const selectedplayer = await db.collection("players").findOne({ username: request.body.username })
         response.send({ _id: selectedplayer._id })
-    } catch (error) {
-        response.send(error)
-    }
 
 };
