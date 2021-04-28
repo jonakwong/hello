@@ -7,7 +7,7 @@ export default async (request, response) => {
 
     //Validataion & Date  before we create a player
     const { error } = registerValidation(request.body);
-    if (error) return response.send({ "message": error.details[0].message })
+    if (error) return response.json(error.details[0].message)
 
     //checking if the user is aleardy in the database
     const usernameExist = await db.collection("players").findOne({ username: request.body.username });
