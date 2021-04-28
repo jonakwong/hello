@@ -16,7 +16,6 @@ export default async (request, response) => {
     //Hash password
     const salt = await bcrypt.genSalt(8);
     const hashedPassword = await bcrypt.hash(request.body.password, salt);
-    const hashedPasswordJSON = await JSON.stringify(hashedPassword)
 
     try {
         const data = await db
@@ -25,7 +24,7 @@ export default async (request, response) => {
                 fullName: request.body.fullName,
                 username: request.body.username,
                 phonenumber: request.body.phonenumber,
-                password: hashedPasswordJSON,
+                password: hashedPassword,
             })
 
         const selectedplayer = await db.collection("players").findOne({ username: request.body.username })
