@@ -1,5 +1,6 @@
 import { connectToDatabase } from "../../../util/mongodb";
 import { registerValidation } from "../../../models/validation"
+const bcrypt = require('bcrypt')
 
 export default async (request, response) => {
     const { db } = await connectToDatabase();
@@ -12,6 +13,11 @@ export default async (request, response) => {
     const usernameExist = await db.collection("players").findOne({ username: request.body.username });
     if (usernameExist) return response.json({ message: 'username aleardy exists' });
 
+    //Hash password
+    const salt = await bcrypt.genSalt(8);
+    const hashedPassword = await bcrypt.hash(request.body.password, salt);
+    const hashedPasswordJSON = await JSON.stringify(hashedPassword)
+
     try {
         const data = await db
             .collection("players")
@@ -19,7 +25,7 @@ export default async (request, response) => {
                 fullName: request.body.fullName,
                 username: request.body.username,
                 phonenumber: request.body.phonenumber,
-                password: request.body.password,
+                password: hashedPasswordJSON,
             })
 
         const selectedplayer = await db.collection("players").findOne({ username: request.body.username })
