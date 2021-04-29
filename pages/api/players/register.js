@@ -1,6 +1,5 @@
 import { connectToDatabase } from "../../../util/mongodb";
 import { registerValidation } from "../../../models/validation"
-const bcrypt = require('bcrypt')
 
 export default async (request, response) => {
     const { db } = await connectToDatabase();
