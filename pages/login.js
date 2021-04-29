@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from 'react'
-const bcrypt = require('bcrypt')
 
 export default function Login() {
   const Logo = '../Material/Logo.png'
