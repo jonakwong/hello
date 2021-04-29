@@ -31,11 +31,6 @@ export default function Login() {
     e.preventDefault();
     console.log(details)
 
-    //Hash password
-    const salt = await bcrypt.genSalt(8);
-    const hashedPassword = await bcrypt.hash(details.password, salt)
-    setDetails({ ...details, password: hashedPassword })
-
     if (LogResBoolean == true) { //if true = register > create account
       registerAccount(details)
     } else { //else false = login > login account
@@ -46,6 +41,12 @@ export default function Login() {
   //register quest to api
   async function registerAccount(details) {
     const registerurl = '/api/players/register'
+
+    //Hash password
+    const salt = await bcrypt.genSalt(8);
+    const hashedPassword = await bcrypt.hash(details.password, salt)
+    setDetails({ ...details, password: hashedPassword })
+    console.log(details)
 
     await fetch(registerurl, {
       method: 'POST',
