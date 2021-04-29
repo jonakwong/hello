@@ -42,12 +42,6 @@ export default function Login() {
   async function registerAccount(details) {
     const registerurl = '/api/players/register'
 
-    //Hash password
-    const salt = await bcrypt.genSalt(8);
-    const hashedPassword = await bcrypt.hash(details.password, salt)
-    setDetails({ ...details, password: hashedPassword })
-    console.log(details)
-
     await fetch(registerurl, {
       method: 'POST',
       headers: {
